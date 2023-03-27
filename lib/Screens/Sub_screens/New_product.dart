@@ -57,7 +57,7 @@ class _NewProductPageState extends State<NewProductPage> {
           style: GoogleFonts.abel(
             color: kTextWhiteColor,
             fontWeight: FontWeight.w600,
-            fontSize: 3.h,
+            fontSize: 4.h,
           ),
         ),
       ),

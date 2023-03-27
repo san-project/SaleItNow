@@ -5,7 +5,7 @@ import '../models/type_model.dart';
 
 final rand = Random();
 
-final List<double> weeklySpending = [
+final List<double> weeklyselling = [
   rand.nextDouble() * 100,
   rand.nextDouble() * 100,
   rand.nextDouble() * 100,
@@ -28,10 +28,11 @@ _generateExpenses() {
 }
 
 List<TypeModel> typeNames = [
-  TypeModel(name: 'House', maxAmount: 2000, expenses: _generateExpenses()),
-  TypeModel(name: 'Clothing', maxAmount: 200, expenses: _generateExpenses()),
-  TypeModel(name: 'Food', maxAmount: 400, expenses: _generateExpenses()),
-  TypeModel(name: 'Utilities', maxAmount: 200, expenses: _generateExpenses()),
+  TypeModel(name: 'Clothings', maxAmount: 2000, expenses: _generateExpenses()),
+  TypeModel(name: 'Mobiles', maxAmount: 200, expenses: _generateExpenses()),
+  TypeModel(name: 'Telivision', maxAmount: 400, expenses: _generateExpenses()),
+  TypeModel(
+      name: 'Refrigerator', maxAmount: 200, expenses: _generateExpenses()),
   TypeModel(
       name: 'Entertainment', maxAmount: 100, expenses: _generateExpenses()),
   TypeModel(name: 'Transport', maxAmount: 100, expenses: _generateExpenses()),

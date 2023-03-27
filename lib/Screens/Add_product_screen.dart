@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:saleitnow/Screens/Sub_screens/New_product.dart';
 import 'package:saleitnow/constants.dart';
+import 'package:sizer/sizer.dart';
 
 class AddNewProductPage extends StatefulWidget {
   const AddNewProductPage({
@@ -21,10 +22,10 @@ class _AddNewProductPage extends State<AddNewProductPage> {
         // foregroundColor: kPrimaryColor,
         title: Text(
           "Added Products",
-          style: GoogleFonts.abel(
+          style: GoogleFonts.laila(
             color: kTextWhiteColor,
             fontWeight: FontWeight.w600,
-            fontSize: 30,
+            fontSize: 20.sp,
           ),
         ),
         actions: [
