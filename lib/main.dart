@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sizer/sizer.dart';
 
-// import 'Screens/Signup and Signin/signin.dart';
-// import 'Screens/Signup and Signin/signin.dart';
-import 'bottomNavigationBar.dart';
+import 'bottom_navigation_bar.dart';
 import 'constants.dart';
 
 void main() {
@@ -17,14 +15,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // ignore: non_constant_identifier_names
-    return Sizer(builder: (context, Orientation, DeviceType) {
+    return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
           title: 'SaleItNow',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             scaffoldBackgroundColor: kWhiteColor,
-            appBarTheme: AppBarTheme(
+            appBarTheme: const AppBarTheme(
               backgroundColor: kPrimaryColor,
               // iconTheme: IconThemeData(
               //   size: 23.sp,
