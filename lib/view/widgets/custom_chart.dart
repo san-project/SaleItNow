@@ -10,11 +10,11 @@ class CustomChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double mostExpensive = 0;
-    expenses.forEach((double price) {
+    for (var price in expenses) {
       if (price > mostExpensive) {
         mostExpensive = price;
       }
-    });
+    }
     return Padding(
       padding: EdgeInsets.all(1.w),
       child: Column(

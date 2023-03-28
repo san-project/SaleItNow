@@ -165,11 +165,9 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Container(
-                      child: const Text(
-                        'Close',
-                        style: TextStyle(color: Colors.blue, fontSize: 13.0),
-                      ),
+                    child: const Text(
+                      'Close',
+                      style: TextStyle(color: Colors.blue, fontSize: 13.0),
                     ),
                   ),
                   // FlatButton(

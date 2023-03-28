@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import 'Screens/add_product_screen.dart';
-import 'Screens/profitability_screen.dart';
 import 'view/screens/account_screen.dart';
+import 'view/screens/add_product_screen.dart';
+import 'view/screens/profitability_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -25,39 +25,39 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return Scaffold(
       body: Center(child: _widgetOption.elementAt(_selectedIndex)),
       bottomNavigationBar: Container(
-        color: Colors.black,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-          child: GNav(
-            gap: 8,
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            activeColor: Colors.black,
-            tabBackgroundColor: Colors.white,
-            padding: const EdgeInsets.all(16),
-            onTabChange: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            tabs: const [
-              GButton(
-                icon: Icons.home_outlined,
-                text: "Home",
-                textStyle: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              GButton(
-                icon: Icons.add,
-                text: "New Product",
-                textStyle: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              GButton(
-                icon: Icons.person_outline,
-                text: "Account",
-                textStyle: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        color: const Color(0xffebf1e6),
+        child: GNav(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          gap: 8,
+          backgroundColor: const Color(0xffebf1e6),
+          color: Colors.grey.shade800,
+          activeColor: Colors.black,
+          tabBackgroundColor: const Color(0xffd9e7cb),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          selectedIndex: _selectedIndex,
+          onTabChange: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          tabs: const [
+            GButton(
+              icon: Icons.home_outlined,
+              text: "Home",
+              textStyle: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            GButton(
+              icon: Icons.card_travel,
+              text: "Products",
+              textStyle: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            GButton(
+              icon: Icons.person_outline,
+              text: "Account",
+              textStyle: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
     );
@@ -70,24 +70,18 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
 
 // import 'package:google_nav_bar/google_nav_bar.dart';
-
 // class BottomNavigation extends StatefulWidget {
 //   const BottomNavigation({super.key});
-
 //   @override
 //   State<BottomNavigation> createState() => _BottomNavigationState();
 // }
-
 // class _BottomNavigationState extends State<BottomNavigation> {
 //   int pageIndex = 0;
-
 //   final HomePage _homePage = const HomePage();
 //   final AccountPage _accountPage = const AccountPage();
 //   final CategoriesPage _categoriesPage = const CategoriesPage();
 //   final CartPage _cartPage = const CartPage();
-
 //   Widget _showPage = const HomePage();
-
 //   Widget _pageChooser(int page) {
 //     switch (page) {
 //       case 0:
@@ -102,12 +96,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
 //       case 3:
 //         return _accountPage;
 //         break;
-
 //       default:
 //         return const Text("NO page Found ");
 //     }
 //   }
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(

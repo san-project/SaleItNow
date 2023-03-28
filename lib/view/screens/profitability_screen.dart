@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants.dart';
 import '../../utils/dummy_data.dart';
-import '../../data/models/cost_model.dart';
 import '../../data/models/type_model.dart';
 import '../widgets/custom_chart.dart';
 import '../widgets/icon_btn.dart';
@@ -71,9 +70,9 @@ class _ProfitabilityPageState extends State<ProfitabilityPage> {
               } else {
                 final TypeModel typeModel = typeNames[index - 1];
                 double tAmountSpent = 0;
-                typeModel.expenses!.forEach((CostModel expense) {
+                for (var expense in typeModel.expenses!) {
                   tAmountSpent += expense.cost!;
-                });
+                }
                 return _buildCategories(typeModel, tAmountSpent);
               }
             }, childCount: 1 + typeNames.length),

@@ -44,77 +44,75 @@ class _AccountPageState extends State<AccountPage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                width: 100.w,
-                height: 15.h,
-                decoration: const BoxDecoration(
-                  color: kPrimaryColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(2),
-                    bottomRight: Radius.circular(2),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: SizerUtil.deviceType == DeviceType.tablet
-                            ? 12.w
-                            : 13.w,
-                        backgroundColor: kbackgroundColor,
-                        backgroundImage: AssetImage('assets/images/google.png'),
-                      ),
-                      kWidthSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Jhonwick',
-                            style: GoogleFonts.laila(
-                              fontSize: 25.sp,
-                              fontWeight: FontWeight.w500,
-                              color: kTextWhiteColor,
-                            ),
-                          ),
-                          Text(
-                            'SAN.store',
-                            style: GoogleFonts.laila(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w300,
-                              color: kTextWhiteColor,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+        child: Column(
+          children: [
+            Container(
+              width: 100.w,
+              height: 15.h,
+              decoration: const BoxDecoration(
+                color: kPrimaryColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(2),
+                  bottomRight: Radius.circular(2),
                 ),
               ),
-              sizedBox,
-              ProfileDetailColumn(
-                title: 'Email',
-                value: 'SaleItNow.san@gmail.com',
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: SizerUtil.deviceType == DeviceType.tablet
+                          ? 12.w
+                          : 13.w,
+                      backgroundColor: kbackgroundColor,
+                      backgroundImage: AssetImage('assets/images/google.png'),
+                    ),
+                    kWidthSizedBox,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Jhonwick',
+                          style: GoogleFonts.laila(
+                            fontSize: 25.sp,
+                            fontWeight: FontWeight.w500,
+                            color: kTextWhiteColor,
+                          ),
+                        ),
+                        Text(
+                          'SAN.store',
+                          style: GoogleFonts.laila(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w300,
+                            color: kTextWhiteColor,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-              ProfileDetailColumn(
-                title: 'Business Name',
-                value: 'San.store',
-              ),
-              ProfileDetailColumn(
-                title: 'Address',
-                value: 'XYZ Chock',
-              ),
-              ProfileDetailColumn(
-                title: 'Phone Number',
-                value: '+923066666666',
-              ),
-            ],
-          ),
+            ),
+            sizedBox,
+            ProfileDetailColumn(
+              title: 'Email',
+              value: 'SaleItNow.san@gmail.com',
+            ),
+            ProfileDetailColumn(
+              title: 'Business Name',
+              value: 'San.store',
+            ),
+            ProfileDetailColumn(
+              title: 'Address',
+              value: 'XYZ Chock',
+            ),
+            ProfileDetailColumn(
+              title: 'Phone Number',
+              value: '+923066666666',
+            ),
+          ],
         ),
       ),
     );
@@ -129,47 +127,44 @@ class ProfileDetailColumn extends StatelessWidget {
   final String value;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.abel(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                  color: kTextBlackColor,
-                ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.abel(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+                color: kTextBlackColor,
               ),
-              kHalfSizedBox,
-              Text(
-                value,
-                style: GoogleFonts.laila(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                  color: kTextBlackColor,
-                ),
+            ),
+            kHalfSizedBox,
+            Text(
+              value,
+              style: GoogleFonts.laila(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+                color: kTextBlackColor,
               ),
-              kHalfSizedBox,
-              SizedBox(
-                width: 92.w,
-                child: Divider(
-                  thickness: 1.0,
-                ),
-              )
-            ],
-          ),
-          Icon(
-            Icons.lock_outline,
-            size: 10.sp,
-          ),
-        ],
-      ),
+            ),
+            kHalfSizedBox,
+            SizedBox(
+              width: 92.w,
+              child: Divider(
+                thickness: 1.0,
+              ),
+            )
+          ],
+        ),
+        Icon(
+          Icons.lock_outline,
+          size: 10.sp,
+        ),
+      ],
     );
-    ;
   }
 }
