@@ -11,7 +11,8 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   final _prefs = SharedPrefs.instance();
-  signIn(String email, String password, BuildContext context) async {
+  Future<bool> signIn(
+      String email, String password, BuildContext context) async {
     _isLoading = true;
     notifyListeners();
     try {
@@ -22,15 +23,16 @@ class AuthProvider extends ChangeNotifier {
       final data = response.data;
       log(data['token']);
       _prefs.setToken(data['token']);
-
       if (response.data['isApproved']) {
         log("Approved");
       }
+      return true;
     } on DioError catch (e) {
       log(e.response.toString());
+      dioError(context, e);
       _isLoading = false;
       notifyListeners();
-      dioError(context, e);
+      return false;
     }
   }
 
@@ -40,12 +42,28 @@ class AuthProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      final response = await AuthRepo().signUp(seller);
-      if (response.data['status'] == true) {
-        log("success");
-      }
-      if (response.data['isApproved']) {
-        log("Approved");
+      await AuthRepo().signUp(seller);
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+            title: Text('Yay!'),
+            content: Text('You have successfull'),
+            // actions: [
+            //   TextButton(
+            //       onPressed: () {
+            //         Navigator.pop(context, true);
+            //       },
+            //       child: Text('Yes')),
+            //   TextButton(
+            //     onPressed: () {
+            //       Navigator.pop(context, false);
+            //     },
+            //     child: const Text('No'),
+            //   ),
+            // ],
+          ),
+        );
       }
     } on DioError catch (e) {
       _isLoading = false;

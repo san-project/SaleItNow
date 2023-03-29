@@ -135,13 +135,19 @@ class _SiginPageState extends State<SiginPage> {
                               if (!isValid) {
                                 return;
                               }
-                              provider.signIn(_emailController.text,
-                                  _passwordController.text, context);
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const BottomNavigation(),
-                                  ));
+                              provider
+                                  .signIn(_emailController.text,
+                                      _passwordController.text, context)
+                                  .then((value) {
+                                if (value) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            const BottomNavigation(),
+                                      ));
+                                }
+                              });
                             },
                       child: Visibility(
                         visible: !provider.isLoading,
