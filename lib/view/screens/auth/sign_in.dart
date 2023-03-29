@@ -7,6 +7,7 @@ import 'package:saleitnow/data/repos/auth_repo.dart';
 import 'package:saleitnow/providers/auth_provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../bottom_navigation_bar.dart';
 import 'sign_up.dart';
 
 class SiginPage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _SiginPageState extends State<SiginPage> {
 
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -41,103 +43,125 @@ class _SiginPageState extends State<SiginPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 120),
-              Text(
-                "Let's sign you in.",
-                style: GoogleFonts.laila(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  Text(
-                    "WelCome Back.",
-                    style: GoogleFonts.laila(fontSize: 20, color: Colors.black),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    "You've been missed!",
-                    style: GoogleFonts.laila(fontSize: 20, color: Colors.black),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              emailField(),
-              const SizedBox(height: 10),
-              passwordFeild(),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Forget Passord?",
-                      style: GoogleFonts.laila(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 1),
-              Row(
-                children: [
-                  Text(
-                    "Don't have an account?",
-                    style: GoogleFonts.laila(fontSize: 15, color: Colors.black),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const SignupPage()));
-                    },
-                    child: Text(
-                      "Sign Up",
-                      style: GoogleFonts.laila(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: 100.w,
-                height: 12.w,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12))),
-                  onPressed: () {
-                    context.read<AuthProvider>().signIn(
-                        _emailController.text, _passwordController.text);
-                    // AuthRepo().signIn(
-                    //     email: _emailController.text,
-                    //     password: _passwordController.text);
-                  },
-                  child: Text(
-                    "Sign In",
-                    style: GoogleFonts.laila(
-                      fontSize: 22,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 120),
+                Text(
+                  "Let's sign you in.",
+                  style: GoogleFonts.laila(
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black),
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    Text(
+                      "WelCome Back.",
+                      style:
+                          GoogleFonts.laila(fontSize: 20, color: Colors.black),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "You've been missed!",
+                      style:
+                          GoogleFonts.laila(fontSize: 20, color: Colors.black),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                emailField(),
+                const SizedBox(height: 10),
+                passwordFeild(),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Forget Passord?",
+                        style: GoogleFonts.laila(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 1),
+                Row(
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style:
+                          GoogleFonts.laila(fontSize: 15, color: Colors.black),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const SignupPage()));
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: GoogleFonts.laila(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: 100.w,
+                  height: 12.w,
+                  child: Consumer<AuthProvider>(
+                    builder: (context, provider, child) => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12))),
+                      onPressed: provider.isLoading
+                          ? null
+                          : () {
+                              final isValid = _formKey.currentState!.validate();
+                              if (!isValid) {
+                                return;
+                              }
+                              provider.signIn(_emailController.text,
+                                  _passwordController.text, context);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const BottomNavigation(),
+                                  ));
+                            },
+                      child: Visibility(
+                        visible: !provider.isLoading,
+                        replacement: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                        child: Text(
+                          "Sign In",
+                          style: GoogleFonts.laila(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -150,6 +174,12 @@ class _SiginPageState extends State<SiginPage> {
       child: TextFormField(
         controller: _passwordController,
         keyboardType: TextInputType.visiblePassword,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Password Cannot be Empty';
+          }
+          return null;
+        },
         decoration: InputDecoration(
           labelText: "Password",
           focusedBorder: UnderlineInputBorder(
@@ -169,6 +199,15 @@ class _SiginPageState extends State<SiginPage> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         controller: _emailController,
+        validator: (value) {
+          if (value == null ||
+              value.isEmpty ||
+              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(value)) {
+            return 'Enter a valid email!';
+          }
+          return null;
+        },
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           labelText: "Email",

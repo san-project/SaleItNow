@@ -1,8 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:saleitnow/constants.dart';
+import 'package:saleitnow/providers/auth_provider.dart';
+import 'package:saleitnow/view/screens/auth/sign_in.dart';
 import 'package:sizer/sizer.dart';
 
 import 'Sub_screens/account_setting.dart';
@@ -35,11 +40,40 @@ class _AccountPageState extends State<AccountPage> {
             icon: Icon(Icons.report_gmailerrorred_outlined),
           ),
           IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AccountSettingPage()));
+            onPressed: () async {
+              final shouldLogout = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('Log Out'),
+                  content: Text('Are you sure you want to log out ?'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, true);
+                        },
+                        child: Text('Yes')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                        child: Text('No')),
+                  ],
+                ),
+              );
+
+              log("=================Log OUt $shouldLogout");
+              if ((shouldLogout ?? false) && mounted) {
+                context.read<AuthProvider>().logOut().then((value) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SiginPage(),
+                      ),
+                      (route) => false);
+                });
+              }
             },
-            icon: Icon(Icons.settings_outlined),
+            icon: Icon(Icons.logout),
           ),
         ],
       ),

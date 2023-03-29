@@ -5,7 +5,7 @@ class BaseApi {
   BaseApi._();
   factory BaseApi() => BaseApi._()..init();
   static final _dio =
-      Dio(BaseOptions(baseUrl: 'http://192.168.1.103:5000/api/v1'));
+      Dio(BaseOptions(baseUrl: 'https://buyitnow-j5c7.onrender.com/api/v1'));
   Dio get dio => _dio;
   init() {
     _dio.interceptors.add(PrettyDioLogger());

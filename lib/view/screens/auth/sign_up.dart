@@ -63,7 +63,7 @@ class _SignupPageState extends State<SignupPage> {
       gstNo: _gstinController.text,
       mobile: _mobileController.text,
     );
-    context.read<AuthProvider>().signUp(seller);
+    context.read<AuthProvider>().signUp(seller, context);
   }
 
   final inputBorder =
@@ -140,7 +140,7 @@ class _SignupPageState extends State<SignupPage> {
                     child: Consumer<AuthProvider>(
                       builder: (BuildContext context, provider, child) =>
                           provider.isLoading
-                              ? CircularProgressIndicator()
+                              ? const CircularProgressIndicator()
                               : Text(
                                   "Sign Up",
                                   style: GoogleFonts.laila(
@@ -152,7 +152,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 )
               ],
@@ -165,7 +165,7 @@ class _SignupPageState extends State<SignupPage> {
 
   String? textFiledValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Enter a valid password!';
+      return 'This Field Cannot be Empty!';
     }
     return null;
   }
@@ -178,7 +178,9 @@ class _SignupPageState extends State<SignupPage> {
         keyboardType: TextInputType.text,
         validator: textFiledValidator,
         decoration: InputDecoration(
-            labelText: "First and Last Name", focusedBorder: inputBorder),
+            labelText: "First and Last Name",
+            focusedBorder: inputBorder,
+            border: inputBorder),
       ),
     );
   }
@@ -190,7 +192,9 @@ class _SignupPageState extends State<SignupPage> {
         controller: _businessNameController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-            labelText: "Business / Company Name", focusedBorder: inputBorder),
+            labelText: "Business / Company Name",
+            focusedBorder: inputBorder,
+            border: inputBorder),
       ),
     );
   }
@@ -201,8 +205,10 @@ class _SignupPageState extends State<SignupPage> {
       child: TextFormField(
         controller: _addressController,
         keyboardType: TextInputType.text,
-        decoration:
-            InputDecoration(labelText: "Address", focusedBorder: inputBorder),
+        decoration: InputDecoration(
+            labelText: "Address",
+            focusedBorder: inputBorder,
+            border: inputBorder),
       ),
     );
   }
@@ -222,8 +228,10 @@ class _SignupPageState extends State<SignupPage> {
           }
           return null;
         },
-        decoration:
-            InputDecoration(labelText: "Email", focusedBorder: inputBorder),
+        decoration: InputDecoration(
+            labelText: "Email",
+            focusedBorder: inputBorder,
+            border: inputBorder),
       ),
     );
   }
@@ -235,8 +243,10 @@ class _SignupPageState extends State<SignupPage> {
         controller: _mobileController,
         validator: textFiledValidator,
         keyboardType: TextInputType.number,
-        decoration:
-            InputDecoration(labelText: "Phone", focusedBorder: inputBorder),
+        decoration: InputDecoration(
+            labelText: "Phone",
+            focusedBorder: inputBorder,
+            border: inputBorder),
       ),
     );
   }
@@ -248,8 +258,10 @@ class _SignupPageState extends State<SignupPage> {
         controller: _gstinController,
         validator: textFiledValidator,
         keyboardType: TextInputType.visiblePassword,
-        decoration:
-            InputDecoration(labelText: "GSTIN No.", focusedBorder: inputBorder),
+        decoration: InputDecoration(
+            labelText: "GSTIN No.",
+            focusedBorder: inputBorder,
+            border: inputBorder),
       ),
     );
   }
