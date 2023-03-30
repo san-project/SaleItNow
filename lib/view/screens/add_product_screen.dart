@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:saleitnow/constants.dart';
 import 'package:sizer/sizer.dart';
-
-import 'sub_screens/new_product.dart';
+import 'package:saleitnow/constants.dart';
+import 'new_product.dart';
 
 class AddNewProductPage extends StatefulWidget {
   const AddNewProductPage({

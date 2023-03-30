@@ -1,9 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:saleitnow/data/repos/auth_repo.dart';
 import 'package:saleitnow/providers/auth_provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,6 +27,10 @@ class _SiginPageState extends State<SiginPage> {
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    if (kDebugMode) {
+      _emailController.text = "nikhil1@gmail.com";
+      _passwordController.text = "12345678";
+    }
     super.initState();
   }
 

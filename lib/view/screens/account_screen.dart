@@ -10,8 +10,6 @@ import 'package:saleitnow/providers/auth_provider.dart';
 import 'package:saleitnow/view/screens/auth/sign_in.dart';
 import 'package:sizer/sizer.dart';
 
-import 'Sub_screens/account_setting.dart';
-
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 

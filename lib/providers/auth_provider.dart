@@ -49,19 +49,6 @@ class AuthProvider extends ChangeNotifier {
           builder: (context) => const AlertDialog(
             title: Text('Yay!'),
             content: Text('You have successfull'),
-            // actions: [
-            //   TextButton(
-            //       onPressed: () {
-            //         Navigator.pop(context, true);
-            //       },
-            //       child: Text('Yes')),
-            //   TextButton(
-            //     onPressed: () {
-            //       Navigator.pop(context, false);
-            //     },
-            //     child: const Text('No'),
-            //   ),
-            // ],
           ),
         );
       }
