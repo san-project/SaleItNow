@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'view/screens/account_screen.dart';
-import 'view/screens/add_product_screen.dart';
+import 'view/screens/product_screen.dart';
 import 'view/screens/profitability_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -16,7 +16,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOption = <Widget>[
     const ProfitabilityPage(),
-    const AddNewProductPage(),
+    const ProductScreen(),
     const AccountPage(),
   ];
 

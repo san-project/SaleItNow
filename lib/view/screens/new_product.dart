@@ -10,7 +10,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../constants.dart';
 import '../../../providers/product_provider.dart';
-import 'add_product_screen.dart';
+import 'product_screen.dart';
 
 class NewProductPage extends StatefulWidget {
   const NewProductPage({super.key});
@@ -39,6 +39,7 @@ class _NewProductPageState extends State<NewProductPage> {
   @override
   void initState() {
     super.initState();
+    log("in initstate of New Product");
     context.read<ProductProvider>().getAllCategoryFromRepo(context);
     _productName = TextEditingController();
     _descriptionText = TextEditingController();

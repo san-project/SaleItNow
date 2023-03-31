@@ -23,6 +23,7 @@ class AuthProvider extends ChangeNotifier {
       final data = response.data;
       log(data['token']);
       _prefs.setToken(data['token']);
+      _prefs.setSellerId(data['id']);
       if (response.data['isApproved']) {
         log("Approved");
       }

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -10,7 +9,7 @@ import '../models/product_model.dart';
 class ProductRepo {
   final api = BaseApi().dio;
   final token = SharedPrefs.instance().token;
-
+  final sellerId = SharedPrefs.instance().sellerId;
   Future<Response> uploadProduct(ProductModel product) async {
     try {
       final data = await product.toJson();
@@ -20,6 +19,16 @@ class ProductRepo {
           options: Options(headers: {'Authorization': 'Bearer $token'}));
     } catch (e) {
       log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<Response> getAllProducts() async {
+    log(sellerId ?? "no seller id found");
+    try {
+      return await api.get('/product/sellerProducts',
+          queryParameters: {"sellerId": sellerId});
+    } catch (e) {
       rethrow;
     }
   }

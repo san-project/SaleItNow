@@ -11,8 +11,8 @@ class SharedPrefs {
 
   void setToken(String token) => prefs.setString('token', token);
   String? get token => prefs.getString('token');
-  void setUserId(String userId) => prefs.setString('userId', userId);
-  String? get userId => prefs.getString('userId');
+  void setSellerId(String sellerId) => prefs.setString('sellerId', sellerId);
+  String? get sellerId => prefs.getString('sellerId');
   void set(bool isAdmin) => prefs.setBool('isAdmin', isAdmin);
   bool get isAdmin => prefs.getBool('token') ?? false;
 

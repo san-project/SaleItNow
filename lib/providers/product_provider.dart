@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:saleitnow/data/models/category_model.dart';
 import 'package:saleitnow/data/models/product_model.dart';
+import 'package:saleitnow/data/models/get_product_model.dart' as prd;
 import '../utils/pick_images.dart';
 import '../utils/snack_bar.dart';
 import '../data/repos/product_repo.dart';
@@ -19,19 +20,21 @@ class ProductProvider extends ChangeNotifier {
   File? get thumbnail => _thumbnail;
   final List<File> _pickedImages = [];
   List<File> get pickedImages => _pickedImages;
+  List<prd.ProductModel> _listOfProducts = [];
+  List<prd.ProductModel> get listOfProducts => _listOfProducts;
 
   void changeCategory(CategoryModel? categoryModel) {
     _selectedCategory = categoryModel;
     notifyListeners();
   }
 
-  pickMultipleImages() async {
+  Future<void> pickMultipleImages() async {
     final images = await pickImages();
     _pickedImages.addAll(images);
     notifyListeners();
   }
 
-  getAllCategoryFromRepo(BuildContext context) async {
+  Future<void> getAllCategoryFromRepo(BuildContext context) async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -49,12 +52,12 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-  pickThumbnail() async {
+  Future<void> pickThumbnail() async {
     _thumbnail = await pickSingleImage();
     notifyListeners();
   }
 
-  uploadProducts(
+  Future<void> uploadProducts(
       {required String name,
       required String description,
       required double price,
@@ -84,6 +87,23 @@ class ProductProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
       log(e.toString());
+    }
+  }
+
+  Future<void> getAllProducts(BuildContext context) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final response = await ProductRepo().getAllProducts();
+      final listOfProducts = response.data['products'] as List;
+      _listOfProducts = prd.getProductsFromJson(listOfProducts);
+      _isLoading = false;
+      notifyListeners();
+      log("listofproducts $_listOfProducts");
+    } on DioError catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      dioError(context, e);
     }
   }
 }
