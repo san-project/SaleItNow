@@ -24,9 +24,24 @@ class _SignupPageState extends State<SignupPage> {
   late final TextEditingController _businessNameController;
   late final TextEditingController _mobileController;
   late final TextEditingController _gstinController;
+  late final FocusNode _emailNode;
+  late final FocusNode _passwordNode;
+  late final FocusNode _confirmPasswordNode;
+  late final FocusNode _addressNode;
+  late final FocusNode _businessNameNode;
+  late final FocusNode _mobileNode;
+  late final FocusNode _gstNode;
+
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
+    _emailNode = FocusNode();
+    _passwordNode = FocusNode();
+    _confirmPasswordNode = FocusNode();
+    _addressNode = FocusNode();
+    _businessNameNode = FocusNode();
+    _mobileNode = FocusNode();
+    _gstNode = FocusNode();
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
@@ -39,6 +54,13 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   void dispose() {
+    _emailNode.dispose();
+    _passwordNode.dispose();
+    _confirmPasswordNode.dispose();
+    _addressNode.dispose();
+    _businessNameNode.dispose();
+    _mobileNode.dispose();
+    _gstNode.dispose();
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -175,6 +197,9 @@ class _SignupPageState extends State<SignupPage> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         controller: _nameController,
+        onFieldSubmitted: (value) =>
+            FocusScope.of(context).requestFocus(_businessNameNode),
+        textInputAction: TextInputAction.next,
         keyboardType: TextInputType.text,
         validator: textFiledValidator,
         decoration: InputDecoration(
@@ -189,6 +214,10 @@ class _SignupPageState extends State<SignupPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        onFieldSubmitted: (value) =>
+            FocusScope.of(context).requestFocus(_emailNode),
+        textInputAction: TextInputAction.next,
+        focusNode: _businessNameNode,
         controller: _businessNameController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
@@ -203,7 +232,11 @@ class _SignupPageState extends State<SignupPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        focusNode: _addressNode,
         controller: _addressController,
+        onFieldSubmitted: (value) =>
+            FocusScope.of(context).requestFocus(_gstNode),
+        textInputAction: TextInputAction.next,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
             labelText: "Address",
@@ -217,8 +250,12 @@ class _SignupPageState extends State<SignupPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        focusNode: _emailNode,
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
+        onFieldSubmitted: (value) =>
+            FocusScope.of(context).requestFocus(_mobileNode),
+        textInputAction: TextInputAction.next,
         validator: (value) {
           if (value == null ||
               value.isEmpty ||
@@ -240,6 +277,10 @@ class _SignupPageState extends State<SignupPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        onFieldSubmitted: (value) =>
+            FocusScope.of(context).requestFocus(_addressNode),
+        textInputAction: TextInputAction.next,
+        focusNode: _mobileNode,
         controller: _mobileController,
         validator: textFiledValidator,
         keyboardType: TextInputType.number,
@@ -255,6 +296,10 @@ class _SignupPageState extends State<SignupPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        onFieldSubmitted: (value) =>
+            FocusScope.of(context).requestFocus(_passwordNode),
+        textInputAction: TextInputAction.next,
+        focusNode: _gstNode,
         controller: _gstinController,
         validator: textFiledValidator,
         keyboardType: TextInputType.visiblePassword,
@@ -270,7 +315,11 @@ class _SignupPageState extends State<SignupPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        focusNode: _passwordNode,
         controller: _passwordController,
+        onFieldSubmitted: (value) =>
+            FocusScope.of(context).requestFocus(_confirmPasswordNode),
+        textInputAction: TextInputAction.next,
         validator: textFiledValidator,
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
@@ -290,6 +339,7 @@ class _SignupPageState extends State<SignupPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        focusNode: _confirmPasswordNode,
         validator: textFiledValidator,
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(

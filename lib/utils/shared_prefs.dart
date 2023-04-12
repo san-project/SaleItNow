@@ -13,8 +13,8 @@ class SharedPrefs {
   String? get token => prefs.getString('token');
   void setSellerId(String sellerId) => prefs.setString('sellerId', sellerId);
   String? get sellerId => prefs.getString('sellerId');
-  void set(bool isAdmin) => prefs.setBool('isAdmin', isAdmin);
-  bool get isAdmin => prefs.getBool('token') ?? false;
+  void setAdmin(bool isAdmin) => prefs.setBool('isAdmin', isAdmin);
+  bool get isAdmin => prefs.getBool('isAdmin') ?? false;
 
   Future<bool> clear() async => await prefs.clear();
 }

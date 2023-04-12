@@ -25,30 +25,29 @@ class _NewProductPageState extends State<NewProductPage> {
   late final TextEditingController _descriptionText;
   late final TextEditingController _price;
   late final TextEditingController _stock;
+  late final ProductProvider _provider;
   // late final TextEditingController CategoryBox;
-  String dropdownvalue = 'Item 1';
+
   // List<File> images = [];
-  var items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
 
   @override
   void initState() {
     super.initState();
     log("in initstate of New Product");
-    context.read<ProductProvider>().getAllCategoryFromRepo(context);
+    _provider = Provider.of<ProductProvider>(context, listen: false);
+    // context.read<ProductProvider>().getAllCategoryFromRepo(context);
     _productName = TextEditingController();
     _descriptionText = TextEditingController();
     _price = TextEditingController();
     _stock = TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _provider.getAllCategoryFromRepo(context);
+    });
   }
 
   @override
   void dispose() {
+    _provider.clearImages();
     _productName.dispose();
     _descriptionText.dispose();
     _price.dispose();
@@ -60,13 +59,8 @@ class _NewProductPageState extends State<NewProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "New Products",
-          style: GoogleFonts.abel(
-            color: kTextWhiteColor,
-            fontWeight: FontWeight.w600,
-            fontSize: 4.h,
-          ),
         ),
       ),
       body: Padding(

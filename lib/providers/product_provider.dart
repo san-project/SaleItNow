@@ -28,6 +28,13 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  clearImages() {
+    _pickedImages.clear();
+    _thumbnail = null;
+    log("images cleared");
+    // notifyListeners();
+  }
+
   Future<void> pickMultipleImages() async {
     final images = await pickImages();
     _pickedImages.addAll(images);

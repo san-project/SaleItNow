@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:saleitnow/providers/auth_provider.dart';
+import 'package:saleitnow/utils/dialogs.dart';
+import 'package:saleitnow/utils/enums.dart';
+import 'package:saleitnow/view/screens/admin/home.dart';
+import 'package:saleitnow/view/screens/seller_not_apprved_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../bottom_navigation_bar.dart';
@@ -133,7 +137,7 @@ class _SiginPageState extends State<SiginPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12))),
                       onPressed: provider.isLoading
-                          ? null
+                          ? () {}
                           : () {
                               final isValid = _formKey.currentState!.validate();
                               if (!isValid) {
@@ -142,14 +146,36 @@ class _SiginPageState extends State<SiginPage> {
                               provider
                                   .signIn(_emailController.text,
                                       _passwordController.text, context)
-                                  .then((value) {
-                                if (value) {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            const BottomNavigation(),
-                                      ));
+                                  .then((userType) {
+                                if (userType == null) {
+                                  // showMessageDialog(
+                                  //     context, 'Something Went Wrong');
+                                } else {
+                                  switch (userType) {
+                                    case UserType.approvedSeller:
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                const BottomNavigation(),
+                                          ));
+                                      break;
+                                    case UserType.notApprovedSeller:
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                const SellerNotApprovedScreen(),
+                                          ));
+                                      break;
+                                    case UserType.admin:
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => const HomeScreen(),
+                                          ));
+                                      break;
+                                  }
                                 }
                               });
                             },

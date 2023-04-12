@@ -10,8 +10,6 @@ class AuthRepo {
   Future<Response> signIn(
       {required String email, required String password}) async {
     try {
-      log("sending message====================================================================================");
-      // log(jsonEncode({"email": email, "password": password}));
       return await api.post(
         '/auth/seller/login',
         data: {"email": email, "password": password},

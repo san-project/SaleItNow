@@ -8,7 +8,7 @@ class BaseApi {
   static final _dio = Dio(
     BaseOptions(
       baseUrl: kDebugMode
-          ? 'http://192.168.1.103:5000/api/v1'
+          ? "http://192.168.1.101:5000/api/v1"
           : 'https://buyitnow-j5c7.onrender.com/api/v1',
     ),
   );

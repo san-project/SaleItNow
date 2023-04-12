@@ -23,32 +23,27 @@ class _ProfitabilityPageState extends State<ProfitabilityPage> {
       body: CustomScrollView(
         slivers: [
 //------------------------------AppBar------------------------------------------
-          SliverAppBar(
+          const SliverAppBar(
             forceElevated: true,
             floating: true,
-            expandedHeight: 10.h,
-            leading: CustomBtn(
-              onPress: () {},
-              iconData: Icons.settings_outlined,
-              color: Colors.white,
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'Profitability',
-                style: GoogleFonts.laila(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                  color: kTextWhiteColor,
-                ),
-              ),
-            ),
-            actions: [
-              CustomBtn(
-                onPress: () {},
-                iconData: Icons.add_outlined,
-                color: Colors.white,
-              ),
-            ],
+            title: Text('DashBoard'),
+            // expandedHeight: 10.h,
+
+            // leading: CustomBtn(
+            //   onPress: () {},
+            //   iconData: Icons.settings_outlined,
+            //   color: Colors.white,
+            // // ),
+            // flexibleSpace: FlexibleSpaceBar(
+            //   title: Text(
+            //     'Profitability',
+            //     // style: GoogleFonts.laila(
+            //     //   fontSize: 15.sp,
+            //     //   fontWeight: FontWeight.w500,
+            //     //   color: kTextWhiteColor,
+            //     // ),
+            //   ),
+            // ),
           ),
 //-------------------------Chart-Container--------------------------------------
           SliverList(
