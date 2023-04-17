@@ -90,26 +90,51 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   InkWell(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SellerManagementScreen(),
+                      builder: (context) => const SellerManagementScreen(
+                        sellerStatus: SellerStatus.allSellers,
+                      ),
                     )),
                     child: _buildGridTile(
                       "Total Sellers",
                       adminProvider.dashboardDetails['noOfSeller'].toString(),
                     ),
                   ),
-                  _buildGridTile(
-                    "Total Aproved Sellers",
-                    adminProvider.dashboardDetails['noOfApprovedSellers']
-                        .toString(),
+                  InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SellerManagementScreen(
+                        sellerStatus: SellerStatus.approved,
+                      ),
+                    )),
+                    child: _buildGridTile(
+                      "Total Aproved Sellers",
+                      adminProvider.dashboardDetails['noOfApprovedSellers']
+                          .toString(),
+                    ),
                   ),
-                  _buildGridTile(
-                    "Total Not Aproved Sellers",
-                    adminProvider.dashboardDetails['noOfNotApprovedSellers']
-                        .toString(),
+                  InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SellerManagementScreen(
+                        sellerStatus: SellerStatus.notApproved,
+                      ),
+                    )),
+                    child: _buildGridTile(
+                      "Total Not Aproved Sellers",
+                      adminProvider.dashboardDetails['noOfNotApprovedSellers']
+                          .toString(),
+                    ),
                   ),
                   _buildGridTile(
                     "Total Users",
                     adminProvider.dashboardDetails['noOfUsers'].toString(),
+                  ),
+                  _buildGridTile(
+                    "Total Orders",
+                    adminProvider.dashboardDetails['totalOrders'].toString(),
+                  ),
+                  _buildGridTile(
+                    "Delivered Orders",
+                    adminProvider.dashboardDetails['noOfdeliveredOrders']
+                        .toString(),
                   ),
                 ],
               ),
@@ -141,8 +166,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+enum SellerStatus { approved, notApproved, allSellers }
+
 class SellerManagementScreen extends StatefulWidget {
-  const SellerManagementScreen({super.key});
+  final SellerStatus sellerStatus;
+  const SellerManagementScreen({super.key, required this.sellerStatus});
 
   @override
   State<SellerManagementScreen> createState() => _SellerManagementScreenState();
@@ -162,7 +190,7 @@ class _SellerManagementScreenState extends State<SellerManagementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Sellers'),
+        title: const Text('Seller Management'),
       ),
       body: Consumer<AdminProvider>(
         builder: (_, adminProvider, __) {
@@ -174,28 +202,98 @@ class _SellerManagementScreenState extends State<SellerManagementScreen> {
               onRefresh: () async {
                 await adminProvider.getAllSellers(context);
               },
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: adminProvider.sellers.length,
-                  itemBuilder: (context, index) {
-                    final currentSeller = adminProvider.sellers[index];
-                    return Card(
-                      child: ListTile(
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    SellerDetails(id: currentSeller.id))),
-                        title: Text(currentSeller.businessName),
-                        trailing: currentSeller.isApproved
-                            ? const Icon(
-                                Icons.check_circle,
-                                color: Colors.green,
-                                size: 28,
-                              )
-                            : null,
+              child: Builder(builder: (context) {
+                //
+                switch (widget.sellerStatus) {
+                  case SellerStatus.approved:
+                    return Visibility(
+                      visible: adminProvider.apprvedSellers.isNotEmpty,
+                      replacement: const Center(
+                        child: Text('Approved Sellers are Empty'),
                       ),
+                      child: ListView.builder(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: adminProvider.apprvedSellers.length,
+                          itemBuilder: (context, index) {
+                            final currentSeller =
+                                adminProvider.apprvedSellers[index];
+
+                            return Card(
+                              child: ListTile(
+                                onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => SellerDetails(
+                                            id: currentSeller.id))),
+                                title: Text(currentSeller.businessName),
+                                trailing: currentSeller.isApproved
+                                    ? const Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                        size: 28,
+                                      )
+                                    : null,
+                              ),
+                            );
+                          }),
                     );
-                  }),
+                  case SellerStatus.notApproved:
+                    return Visibility(
+                      visible: adminProvider.notApprvedSellers.isNotEmpty,
+                      replacement: const Center(
+                        child: Text('Not Approved Sellers are Empty'),
+                      ),
+                      child: ListView.builder(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: adminProvider.notApprvedSellers.length,
+                          itemBuilder: (context, index) {
+                            final currentSeller =
+                                adminProvider.notApprvedSellers[index];
+
+                            return Card(
+                              child: ListTile(
+                                onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => SellerDetails(
+                                            id: currentSeller.id))),
+                                title: Text(currentSeller.businessName),
+                                trailing: currentSeller.isApproved
+                                    ? const Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                        size: 28,
+                                      )
+                                    : null,
+                              ),
+                            );
+                          }),
+                    );
+
+                  case SellerStatus.allSellers:
+                    return ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: adminProvider.sellers.length,
+                        itemBuilder: (context, index) {
+                          final currentSeller = adminProvider.sellers[index];
+
+                          return Card(
+                            child: ListTile(
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SellerDetails(id: currentSeller.id))),
+                              title: Text(currentSeller.businessName),
+                              trailing: currentSeller.isApproved
+                                  ? const Icon(
+                                      Icons.check_circle,
+                                      color: Colors.green,
+                                      size: 28,
+                                    )
+                                  : null,
+                            ),
+                          );
+                        });
+                }
+              }),
             );
           }
         },

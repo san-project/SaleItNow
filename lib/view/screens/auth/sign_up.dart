@@ -220,6 +220,7 @@ class _SignupPageState extends State<SignupPage> {
         focusNode: _businessNameNode,
         controller: _businessNameController,
         keyboardType: TextInputType.text,
+        validator: textFiledValidator,
         decoration: InputDecoration(
             labelText: "Business / Company Name",
             focusedBorder: inputBorder,
@@ -234,6 +235,7 @@ class _SignupPageState extends State<SignupPage> {
       child: TextFormField(
         focusNode: _addressNode,
         controller: _addressController,
+        validator: textFiledValidator,
         onFieldSubmitted: (value) =>
             FocusScope.of(context).requestFocus(_gstNode),
         textInputAction: TextInputAction.next,
@@ -320,7 +322,15 @@ class _SignupPageState extends State<SignupPage> {
         onFieldSubmitted: (value) =>
             FocusScope.of(context).requestFocus(_confirmPasswordNode),
         textInputAction: TextInputAction.next,
-        validator: textFiledValidator,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Password cannot be empty";
+          }
+          if (value.length < 8) {
+            return "Password cannot be less than 8 characters";
+          }
+          return null;
+        },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
           labelText: "Password",
@@ -340,7 +350,12 @@ class _SignupPageState extends State<SignupPage> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         focusNode: _confirmPasswordNode,
-        validator: textFiledValidator,
+        validator: (value) {
+          if (value != _passwordController.text) {
+            return "confirm password and password didn't match";
+          }
+          return null;
+        },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
           labelText: "ConformPassword",

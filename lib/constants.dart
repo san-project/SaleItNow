@@ -12,6 +12,7 @@ const Color kGreyColor = Color(0xFF9E9E9E);
 const Color kHighlightColors = Color(0xFFF44336);
 const Color kButtonColor = Color(0xFF4CAF50);
 const Color kbackgroundColor = Color(0xFFD3D1D1);
+const Color kFilledColor = Color(0xfff2f2f2);
 final kMargin = EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h);
 final kPadding = EdgeInsets.all(2.h);
 final kRadius = BorderRadius.circular(2.h);

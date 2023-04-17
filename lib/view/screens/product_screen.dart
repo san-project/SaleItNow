@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 import 'package:saleitnow/providers/product_provider.dart';
-import 'package:sizer/sizer.dart';
-import 'package:saleitnow/constants.dart';
+import 'package:saleitnow/view/widgets/loading_widget.dart';
 import 'new_product.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -19,7 +18,10 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ProductProvider>().getAllProducts(context);
+      if (context.read<ProductProvider>().listOfProducts.isEmpty) {
+        context.read<ProductProvider>().getAllProducts(context);
+        context.read<ProductProvider>().getAllCategoryFromRepo(context);
+      }
     });
     super.initState();
   }
@@ -54,25 +56,32 @@ class _ProductScreenState extends State<ProductScreen> {
         child: const Icon(Icons.add),
       ),
       body: Consumer<ProductProvider>(
-        builder: (context, provider, _) => RefreshIndicator(
-          triggerMode: RefreshIndicatorTriggerMode.onEdge,
-          onRefresh: () async {
-            await provider.getAllProducts(context);
-          },
-          child: ListView.builder(
-            // physics: const BouncingScrollPhysics(),
-
-            itemCount: provider.listOfProducts.length,
-            itemBuilder: (context, index) {
-              final currentProduct = provider.listOfProducts[index];
-              return ListTile(
-                leading: Image.network(currentProduct.thumbnail.url),
-                title: Text(currentProduct.name),
-                subtitle: Text(currentProduct.description),
-                isThreeLine: true,
-                trailing: Text(currentProduct.price.toString()),
-              );
+        builder: (context, provider, _) => Visibility(
+          visible: !provider.isLoading,
+          replacement: const LoadingWidget(),
+          child: RefreshIndicator(
+            triggerMode: RefreshIndicatorTriggerMode.onEdge,
+            onRefresh: () async {
+              await provider.getAllProducts(context);
             },
+            child: ListView.builder(
+              // physics: const BouncingScrollPhysics(),
+
+              itemCount: provider.listOfProducts.length,
+              itemBuilder: (context, index) {
+                final currentProduct = provider.listOfProducts[index];
+                return ListTile(
+                  leading: Image.network(currentProduct.thumbnail.url),
+                  title: Text(currentProduct.name),
+                  subtitle: Text(
+                    currentProduct.description,
+                    maxLines: 2,
+                  ),
+                  isThreeLine: true,
+                  trailing: Text(currentProduct.price.toString()),
+                );
+              },
+            ),
           ),
         ),
       ),

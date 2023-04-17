@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:saleitnow/data/models/category_model.dart';
@@ -10,7 +12,6 @@ import 'package:sizer/sizer.dart';
 
 import '../../../constants.dart';
 import '../../../providers/product_provider.dart';
-import 'product_screen.dart';
 
 class NewProductPage extends StatefulWidget {
   const NewProductPage({super.key});
@@ -26,6 +27,9 @@ class _NewProductPageState extends State<NewProductPage> {
   late final TextEditingController _price;
   late final TextEditingController _stock;
   late final ProductProvider _provider;
+  late final TextEditingController _category;
+
+  late final TextEditingController _brand;
   // late final TextEditingController CategoryBox;
 
   // List<File> images = [];
@@ -36,13 +40,12 @@ class _NewProductPageState extends State<NewProductPage> {
     log("in initstate of New Product");
     _provider = Provider.of<ProductProvider>(context, listen: false);
     // context.read<ProductProvider>().getAllCategoryFromRepo(context);
+    _brand = TextEditingController();
     _productName = TextEditingController();
     _descriptionText = TextEditingController();
+    _category = TextEditingController();
     _price = TextEditingController();
     _stock = TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _provider.getAllCategoryFromRepo(context);
-    });
   }
 
   @override
@@ -52,6 +55,7 @@ class _NewProductPageState extends State<NewProductPage> {
     _descriptionText.dispose();
     _price.dispose();
     _stock.dispose();
+    _brand.dispose();
     super.dispose();
   }
 
@@ -146,22 +150,18 @@ class _NewProductPageState extends State<NewProductPage> {
                     },
                     child: Container(
                       height: 8.h,
+
                       // width: 90.5.w,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(1),
-                        border: Border.all(color: kGreyColor, width: 1),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                          borderRadius: BorderRadius.circular(12),
+                          color: kFilledColor),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Thumbnail",
-                            style: GoogleFonts.abel(
-                              color: Colors.grey.shade500,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 2.5.h,
-                            ),
+                            style: TextStyle(color: Colors.grey),
                           ),
                           provider.thumbnail == null
                               ? Icon(
@@ -179,17 +179,8 @@ class _NewProductPageState extends State<NewProductPage> {
                   TextFormField(
                     controller: _productName,
                     keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Product Name",
-                      labelStyle: GoogleFonts.abel(
-                        fontSize: 2.h,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      border: const OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: kPrimaryColor, width: 0.5.w),
-                      ),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -203,17 +194,8 @@ class _NewProductPageState extends State<NewProductPage> {
                   TextFormField(
                     controller: _descriptionText,
                     keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Description",
-                      labelStyle: GoogleFonts.abel(
-                        fontSize: 2.h,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      border: const OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: kPrimaryColor, width: 0.5.w),
-                      ),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -230,17 +212,8 @@ class _NewProductPageState extends State<NewProductPage> {
                   TextFormField(
                     controller: _price,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Price",
-                      labelStyle: GoogleFonts.abel(
-                        fontSize: 2.h,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      border: const OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: kPrimaryColor, width: 0.5.w),
-                      ),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -254,17 +227,8 @@ class _NewProductPageState extends State<NewProductPage> {
                   TextFormField(
                     controller: _stock,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Stock",
-                      labelStyle: GoogleFonts.abel(
-                        fontSize: 2.h,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      border: const OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: kPrimaryColor, width: 0.5.w),
-                      ),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -276,33 +240,66 @@ class _NewProductPageState extends State<NewProductPage> {
 
                   // QuntityField(quntity),
                   SizedBox(height: 1.5.h),
-                  // CategoryBox(),
-                  Container(
-                    height: 60,
-                    width: 370,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: kGreyColor, width: 1),
+                  TextFormField(
+                    controller: _brand,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: "Brand",
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<CategoryModel>(
-                          isExpanded: true,
-                          value: provider.selectedCategory,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: provider.categoryList.map((category) {
-                            return DropdownMenuItem(
-                              value: category,
-                              child: Text(category.name),
-                            );
-                          }).toList(),
-                          onChanged: (categoryModel) {
-                            provider.changeCategory(categoryModel);
-                          },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Enter brand";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 1.5.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 15.w,
+                        width: 74.w,
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: kFilledColor,
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<CategoryModel>(
+                            isExpanded: true,
+                            value: provider.selectedCategory,
+                            hint: const Text('Category'),
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            items: provider.categoryList.map((category) {
+                              return DropdownMenuItem(
+                                value: category,
+                                child: Text(category.name),
+                              );
+                            }).toList(),
+                            onChanged: (categoryModel) {
+                              provider.changeCategory(categoryModel);
+                            },
+                          ),
                         ),
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          showUploadCategoryBottomSheet();
+                        },
+                        child: Container(
+                          height: 15.w,
+                          width: 15.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(12),
+                            color: kFilledColor,
+                          ),
+                          child: const Icon(Icons.add),
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(height: 1.5.h),
                   // SubmitButton(_formField)
@@ -324,11 +321,17 @@ class _NewProductPageState extends State<NewProductPage> {
                               if (!isValid) {
                                 return;
                               }
+                              if (provider.selectedCategory == null) {
+                                Fluttertoast.showToast(
+                                    msg: "please select category");
+                                return;
+                              }
                               provider.uploadProducts(
                                 name: _productName.text,
                                 description: _descriptionText.text,
                                 price: double.parse(_price.text),
                                 stock: int.parse(_stock.text),
+                                brand: _brand.text,
                                 context: context,
                               );
                             },
@@ -390,6 +393,60 @@ class _NewProductPageState extends State<NewProductPage> {
       ),
 
       //
+    );
+  }
+
+  showUploadCategoryBottomSheet() {
+    showBottomSheet(
+      context: context,
+      enableDrag: true,
+      backgroundColor: Colors.white,
+      builder: (context) => Container(
+        color: Colors.white,
+        height: 30.h,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Add New Category'),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.close),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            TextFormField(
+              controller: _category,
+              enabled: true,
+              decoration: const InputDecoration(
+                hintText: 'Category Name',
+                filled: true,
+                fillColor: Colors.green,
+              ),
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[400],
+                      foregroundColor: Colors.white),
+                  onPressed: () {},
+                  child: const Text('Add')),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

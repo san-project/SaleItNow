@@ -214,6 +214,9 @@ class _SiginPageState extends State<SiginPage> {
           if (value == null || value.isEmpty) {
             return 'Password Cannot be Empty';
           }
+          if (value.length < 8) {
+            return 'Password shouble be more than 8 letter';
+          }
           return null;
         },
         decoration: InputDecoration(

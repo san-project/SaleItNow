@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:saleitnow/providers/seller_provider.dart';
+import 'package:saleitnow/view/widgets/loading_widget.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants.dart';
 import '../../utils/dummy_data.dart';
@@ -18,64 +21,85 @@ class ProfitabilityPage extends StatefulWidget {
 
 class _ProfitabilityPageState extends State<ProfitabilityPage> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<SellerProvider>().getAllOrders();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-//------------------------------AppBar------------------------------------------
-          const SliverAppBar(
-            forceElevated: true,
-            floating: true,
-            title: Text('DashBoard'),
-            // expandedHeight: 10.h,
-
-            // leading: CustomBtn(
-            //   onPress: () {},
-            //   iconData: Icons.settings_outlined,
-            //   color: Colors.white,
-            // // ),
-            // flexibleSpace: FlexibleSpaceBar(
-            //   title: Text(
-            //     'Profitability',
-            //     // style: GoogleFonts.laila(
-            //     //   fontSize: 15.sp,
-            //     //   fontWeight: FontWeight.w500,
-            //     //   color: kTextWhiteColor,
-            //     // ),
-            //   ),
-            // ),
-          ),
-//-------------------------Chart-Container--------------------------------------
-          SliverList(
-            delegate: SliverChildBuilderDelegate((context, int index) {
-              if (index == 0) {
-                return Container(
-                  margin: EdgeInsets.only(
-                    left: 2.w,
-                    right: 2.w,
-                    top: 2.h,
-                    bottom: 2.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(3.h),
-                  ),
-                  child: CustomChart(
-                    expenses: weeklyselling,
-                  ),
-                );
-              } else {
-                final TypeModel typeModel = typeNames[index - 1];
-                double tAmountSpent = 0;
-                for (var expense in typeModel.expenses!) {
-                  tAmountSpent += expense.cost!;
-                }
-                return _buildCategories(typeModel, tAmountSpent);
-              }
-            }, childCount: 1 + typeNames.length),
-          ),
-        ],
+      appBar: AppBar(
+        title: const Text('Dashbaord'),
       ),
+      body: Consumer<SellerProvider>(
+        builder: (_, provider, __) {
+          if (provider.isLoading) {
+            return LoadingWidget();
+          }
+          return Column(
+            children: [Text(provider.listOfOrders.length.toString())],
+          );
+        },
+      ),
+//       body: CustomScrollView(
+//         slivers: [
+// //------------------------------AppBar------------------------------------------
+//           const SliverAppBar(
+//             forceElevated: true,
+//             floating: true,
+//             title: Text('DashBoard'),
+//             // expandedHeight: 10.h,
+
+//             // leading: CustomBtn(
+//             //   onPress: () {},
+//             //   iconData: Icons.settings_outlined,
+//             //   color: Colors.white,
+//             // // ),
+//             // flexibleSpace: FlexibleSpaceBar(
+//             //   title: Text(
+//             //     'Profitability',
+//             //     // style: GoogleFonts.laila(
+//             //     //   fontSize: 15.sp,
+//             //     //   fontWeight: FontWeight.w500,
+//             //     //   color: kTextWhiteColor,
+//             //     // ),
+//             //   ),
+//             // ),
+//           ),
+// //-------------------------Chart-Container--------------------------------------
+//           SliverList(
+//             delegate: SliverChildBuilderDelegate((context, int index) {
+//               if (index == 0) {
+//                 return Container(
+//                   margin: EdgeInsets.only(
+//                     left: 2.w,
+//                     right: 2.w,
+//                     top: 2.h,
+//                     bottom: 2.h,
+//                   ),
+//                   decoration: BoxDecoration(
+//                     color: kPrimaryColor,
+//                     borderRadius: BorderRadius.circular(3.h),
+//                   ),
+//                   child: CustomChart(
+//                     expenses: weeklyselling,
+//                   ),
+//                 );
+//               } else {
+//                 final TypeModel typeModel = typeNames[index - 1];
+//                 double tAmountSpent = 0;
+//                 for (var expense in typeModel.expenses!) {
+//                   tAmountSpent += expense.cost!;
+//                 }
+//                 return _buildCategories(typeModel, tAmountSpent);
+//               }
+//             }, childCount: 1 + typeNames.length),
+//           ),
+//         ],
+//       ),
     );
   }
 }

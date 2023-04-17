@@ -1,16 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:saleitnow/providers/admin_provider.dart';
-import 'package:saleitnow/providers/auth_provider.dart';
-import 'package:saleitnow/providers/product_provider.dart';
-import 'package:saleitnow/utils/shared_prefs.dart';
-import 'package:saleitnow/view/screens/admin/home.dart';
+import './providers/admin_provider.dart';
+import './providers/auth_provider.dart';
+import './providers/product_provider.dart';
+import './providers/seller_provider.dart';
+import './utils/shared_prefs.dart';
+import './view/screens/admin/home.dart';
 import 'package:sizer/sizer.dart';
 import 'bottom_navigation_bar.dart';
 import 'constants.dart';
-import 'view/screens/auth/sign_in.dart';
+import './view/screens/auth/sign_in.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,20 +34,39 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<AdminProvider>(
           create: (context) => AdminProvider(),
+        ),
+        ChangeNotifierProvider<SellerProvider>(
+          create: (context) => SellerProvider(),
         )
       ],
       child: MaterialApp(
         title: 'SaleItNow',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            useMaterial3: true,
-            pageTransitionsTheme: const PageTransitionsTheme(builders: {
-              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-            }),
-            scaffoldBackgroundColor: kWhiteColor,
-            fontFamily: GoogleFonts.poppins().fontFamily,
-            primarySwatch: Colors.blueGrey),
+          useMaterial3: true,
+          pageTransitionsTheme: const PageTransitionsTheme(builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          }),
+          inputDecorationTheme: InputDecorationTheme(
+            floatingLabelAlignment: FloatingLabelAlignment.start,
+            filled: true,
+            fillColor: kFilledColor,
+            labelStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none),
+          ),
+          scaffoldBackgroundColor: kWhiteColor,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          primarySwatch: Colors.blueGrey,
+        ),
         home: Builder(builder: (context) {
           return Sizer(builder: (context, orientation, deviceType) {
             return SharedPrefs.instance().token == null

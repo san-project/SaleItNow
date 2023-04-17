@@ -1,5 +1,5 @@
 List<ProductModel> getProductsFromJson(List json) =>
-    json.map((e) => ProductModel.fromJson(e)).toList();
+    json.map((e) => ProductModel.fromJson(e['product'])).toList();
 
 class ProductModel {
   ProductModel({

@@ -41,4 +41,13 @@ class ProductRepo {
       rethrow;
     }
   }
+
+  Future<Response> uploadCategoty(String category) async {
+    try {
+      return api.post('/category');
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }

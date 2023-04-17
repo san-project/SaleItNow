@@ -10,6 +10,10 @@ class AdminProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   List<Seller> _sellers = [];
   List<Seller> get sellers => _sellers;
+  List<Seller> _approvedSellers = [];
+  List<Seller> get apprvedSellers => _approvedSellers;
+  List<Seller> _notApprovedSellers = [];
+  List<Seller> get notApprvedSellers => _notApprovedSellers;
   Seller? _currentSeller;
   Seller? get currentSeller => _currentSeller;
   Map<String, dynamic> _dashboardDetails = {};
@@ -21,6 +25,10 @@ class AdminProvider extends ChangeNotifier {
       final response = await AdminRepo().getAllSellers();
       final List data = response.data;
       _sellers = data.map((e) => Seller.fromJson(e)).toList();
+      _approvedSellers =
+          _sellers.where((element) => element.isApproved == true).toList();
+      _notApprovedSellers =
+          _sellers.where((element) => element.isApproved == false).toList();
       _isLoading = false;
       notifyListeners();
     } on DioError catch (e) {

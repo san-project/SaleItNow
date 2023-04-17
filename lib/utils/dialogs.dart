@@ -13,7 +13,7 @@ showMessageDialog(BuildContext context, String message) {
 showNotVerifiedDialog(BuildContext context) => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        contentPadding: EdgeInsets.all(24),
+        contentPadding: const EdgeInsets.all(24),
         icon: Icon(
           Icons.info_rounded,
           size: 70,

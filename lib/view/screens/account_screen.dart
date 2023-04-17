@@ -7,7 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:saleitnow/constants.dart';
 import 'package:saleitnow/providers/auth_provider.dart';
+import 'package:saleitnow/providers/seller_provider.dart';
 import 'package:saleitnow/view/screens/auth/sign_in.dart';
+import 'package:saleitnow/view/widgets/loading_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class AccountPage extends StatefulWidget {
@@ -19,22 +21,29 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<SellerProvider>().getSellerDetails();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //app bar theme for tablet
       appBar: AppBar(
         title: Text(
           'My Account',
-          style: GoogleFonts.aBeeZee(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w500,
-            color: kTextWhiteColor,
-          ),
         ),
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => Container(),
+              );
+            },
             icon: Icon(Icons.report_gmailerrorred_outlined),
           ),
           IconButton(
@@ -75,78 +84,87 @@ class _AccountPageState extends State<AccountPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: 100.w,
-              height: 15.h,
-              decoration: const BoxDecoration(
-                color: kPrimaryColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(2),
-                  bottomRight: Radius.circular(2),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: SizerUtil.deviceType == DeviceType.tablet
-                          ? 12.w
-                          : 13.w,
-                      backgroundColor: kbackgroundColor,
-                      backgroundImage: AssetImage('assets/images/google.png'),
+      body: Consumer<SellerProvider>(builder: (_, sellerProvider, __) {
+        final sellerDetails = sellerProvider.seller;
+        if (sellerProvider.isLoading || sellerDetails == null) {
+          return LoadingWidget();
+        } else {
+          final seller = sellerDetails;
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: 100.w,
+                  height: 15.h,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(2),
+                      bottomRight: Radius.circular(2),
                     ),
-                    kWidthSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          'Jhonwick',
-                          style: GoogleFonts.laila(
-                            fontSize: 25.sp,
-                            fontWeight: FontWeight.w500,
-                            color: kTextWhiteColor,
+                        CircleAvatar(
+                          radius: SizerUtil.deviceType == DeviceType.tablet
+                              ? 12.w
+                              : 10.w,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: Text(
+                            seller.name[0].toUpperCase(),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 22.sp),
                           ),
                         ),
-                        Text(
-                          'SAN.store',
-                          style: GoogleFonts.laila(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w300,
-                            color: kTextWhiteColor,
-                          ),
-                        ),
+                        kWidthSizedBox,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              seller.name.toUpperCase(),
+                              style: TextStyle(
+                                color: Colors.deepPurpleAccent,
+                                fontSize: 20.sp,
+                              ),
+                            ),
+                            Text(
+                              seller.businessName,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22.sp,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
-              ),
+                sizedBox,
+                ProfileDetailColumn(
+                  title: 'Email',
+                  value: seller.email,
+                ),
+                ProfileDetailColumn(
+                  title: 'Business Name',
+                  value: seller.businessName,
+                ),
+                ProfileDetailColumn(
+                  title: 'Address',
+                  value: seller.address,
+                ),
+                ProfileDetailColumn(
+                  title: 'Phone Number',
+                  value: seller.mobile,
+                ),
+              ],
             ),
-            sizedBox,
-            ProfileDetailColumn(
-              title: 'Email',
-              value: 'SaleItNow.san@gmail.com',
-            ),
-            ProfileDetailColumn(
-              title: 'Business Name',
-              value: 'San.store',
-            ),
-            ProfileDetailColumn(
-              title: 'Address',
-              value: 'XYZ Chock',
-            ),
-            ProfileDetailColumn(
-              title: 'Phone Number',
-              value: '+923066666666',
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      }),
     );
   }
 }

@@ -45,7 +45,7 @@ class AuthProvider extends ChangeNotifier {
 
       _isLoading = false;
       notifyListeners();
-      if (e.response?.statusCode == 401) {
+      if (e.response?.statusCode == 403) {
         showNotVerifiedDialog(context);
         return null;
       }

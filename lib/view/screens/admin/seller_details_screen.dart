@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+
 import 'package:provider/provider.dart';
-import 'package:saleitnow/data/models/seller_model.dart';
+
 import 'package:saleitnow/providers/admin_provider.dart';
 
 import '../../widgets/loading_widget.dart';
@@ -41,8 +41,16 @@ class _SellerDetailsState extends State<SellerDetails> {
               backgroundColor: Colors.purple[50],
             ),
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("name: \n${currentSeller.name}"),
+                _buildDetailTile('Name', currentSeller.name.trim()),
+                _buildDetailTile(
+                    'Business Name', currentSeller.businessName.trim()),
+                _buildDetailTile('Email', currentSeller.email.trim()),
+                _buildDetailTile('Address', currentSeller.address.trim()),
+                _buildDetailTile('Mobile', currentSeller.mobile.trim()),
+                _buildDetailTile('Gst No.', currentSeller.gstNo.trim()),
+                _buildDetailTile('Gst No.', currentSeller.createdAt.toString()),
               ],
             ),
             floatingActionButtonLocation:
@@ -72,5 +80,25 @@ class _SellerDetailsState extends State<SellerDetails> {
                   ));
       }
     });
+  }
+
+  _buildDetailTile(String title, String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(color: Colors.grey, fontSize: 18),
+          ),
+          Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+          ),
+        ],
+      ),
+    );
   }
 }

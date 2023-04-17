@@ -12,7 +12,7 @@ import '../data/repos/product_repo.dart';
 class ProductProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-  final List<CategoryModel> _categoryList = [];
+  List<CategoryModel> _categoryList = [];
   List<CategoryModel> get categoryList => _categoryList;
   CategoryModel? _selectedCategory;
   CategoryModel? get selectedCategory => _selectedCategory;
@@ -47,9 +47,7 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
       final response = await ProductRepo().getAllCategories();
       final data = response.data as Iterable;
-      for (var element in data) {
-        _categoryList.add(CategoryModel.fromJson(element));
-      }
+      _categoryList = data.map((e) => CategoryModel.fromJson(e)).toList();
       _isLoading = false;
       notifyListeners();
     } on DioError catch (e) {
@@ -68,6 +66,7 @@ class ProductProvider extends ChangeNotifier {
       {required String name,
       required String description,
       required double price,
+      required String brand,
       required int stock,
       required BuildContext context}) async {
     try {
@@ -77,7 +76,7 @@ class ProductProvider extends ChangeNotifier {
           name: name,
           description: description,
           category: _selectedCategory!.id,
-          brand: 'brand',
+          brand: brand,
           images: _pickedImages,
           thumbnail: _thumbnail!,
           price: price,
@@ -107,6 +106,20 @@ class ProductProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
       log("listofproducts $_listOfProducts");
+    } on DioError catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      dioError(context, e);
+    }
+  }
+
+  Future<void> uploadCategory(BuildContext context, String name) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      await ProductRepo().uploadCategoty(name);
+      _isLoading = true;
+      notifyListeners();
     } on DioError catch (e) {
       _isLoading = false;
       notifyListeners();
