@@ -56,30 +56,38 @@ class _SiginPageState extends State<SiginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 120),
+                SizedBox(
+                  height: 10.h,
+                ),
                 Text(
-                  "Let's sign you in.",
+                  "Sale It Now",
                   style: GoogleFonts.laila(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                SizedBox(height: 5.h),
+                const Text(
+                  "Let's sign you in.",
+                  style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
                 const SizedBox(height: 5),
                 Row(
-                  children: [
+                  children: const [
                     Text(
                       "WelCome Back.",
-                      style:
-                          GoogleFonts.laila(fontSize: 20, color: Colors.black),
+                      style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ],
                 ),
                 Row(
-                  children: [
+                  children: const [
                     Text(
                       "You've been missed!",
-                      style:
-                          GoogleFonts.laila(fontSize: 20, color: Colors.black),
+                      style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ],
                 ),

@@ -21,10 +21,38 @@ class SellerRepo {
     }
   }
 
+  Future<Response> getDashboardDetails() async {
+    try {
+      return await api.get(
+        "/seller/dashboard",
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
   Future<Response> getAllOrders() async {
     try {
       return await api.get(
         "/seller/orders",
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<Response> getOrderById(String id) async {
+    try {
+      return await api.get(
+        "/seller/orders/$id",
         options: Options(
           headers: {'Authorization': 'Bearer $token'},
         ),

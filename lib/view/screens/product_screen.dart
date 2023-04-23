@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:saleitnow/providers/product_provider.dart';
+import 'package:saleitnow/view/screens/product_detail_screen.dart';
 import 'package:saleitnow/view/widgets/loading_widget.dart';
 import 'new_product.dart';
 
@@ -71,6 +72,10 @@ class _ProductScreenState extends State<ProductScreen> {
               itemBuilder: (context, index) {
                 final currentProduct = provider.listOfProducts[index];
                 return ListTile(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        ProductDetailsScreen(item: currentProduct),
+                  )),
                   leading: Image.network(currentProduct.thumbnail.url),
                   title: Text(currentProduct.name),
                   subtitle: Text(

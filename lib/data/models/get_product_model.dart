@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 List<ProductModel> getProductsFromJson(List json) =>
-    json.map((e) => ProductModel.fromJson(e['product'])).toList();
+    json.map((e) => ProductModel.fromJson(e)).toList();
 
 class ProductModel {
   ProductModel({
@@ -40,25 +42,28 @@ class ProductModel {
   final DateTime updatedAt;
   final int v;
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-        id: json["_id"],
-        name: json["name"],
-        description: json["description"],
-        category: json["category"]['_id'],
-        brand: json["brand"],
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
-        thumbnail: Image.fromJson(json["thumbnail"]),
-        price: double.parse(json["price"].toString()),
-        countInStock: json["countInStock"],
-        rating: json["rating"],
-        numReviews: json["numReviews"],
-        seller: json["seller"]['_id'],
-        feature: json["feature"],
-        reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-      );
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    log("---------------------\n${json}\n---------------------\n");
+    return ProductModel(
+      id: json["_id"],
+      name: json["name"],
+      description: json["description"],
+      category: json["category"]['_id'],
+      brand: json["brand"],
+      images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+      thumbnail: Image.fromJson(json["thumbnail"]),
+      price: double.parse(json["price"].toString()),
+      countInStock: json["countInStock"],
+      rating: json["rating"],
+      numReviews: json["numReviews"],
+      seller: json["seller"]['_id'],
+      feature: json["feature"],
+      reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
+      createdAt: DateTime.parse(json["createdAt"]),
+      updatedAt: DateTime.parse(json["updatedAt"]),
+      v: json["__v"],
+    );
+  }
   @override
   String toString() => "Product id: $id name: $name";
 }

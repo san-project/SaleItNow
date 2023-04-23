@@ -8,8 +8,10 @@ import '../data/repos/seller_repo.dart';
 class SellerProvider extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
-  List<OrderModel> _listOfOrders = [];
-  List<OrderModel> get listOfOrders => _listOfOrders;
+  late Order _currentOrder;
+  Order get currentOrder => _currentOrder;
+  List<Order> _listOfOrders = [];
+  List<Order> get listOfOrders => _listOfOrders;
 
   Seller? _seller;
   Seller? get seller => _seller;
@@ -27,13 +29,38 @@ class SellerProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
       final response = await SellerRepo().getAllOrders();
-      _listOfOrders = (response.data['orders'] as List).map((e) {
-        // log("======\n$e\n===========");
-        final order = OrderModel.fromJson(e);
-        log("======\n$order\n===========");
-        return order;
-      }).toList();
-      log(_listOfOrders.toString());
+      _listOfOrders = (response.data['orders'] as List)
+          .map((e) => Order.fromJson(e))
+          .toList();
+      log(_listOfOrders.length.toString());
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  getOrderById(String id) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      final response = await SellerRepo().getOrderById(id);
+      _currentOrder = Order.fromJson(response.data);
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  getDashboardDetails() async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      final response = await SellerRepo().getDashboardDetails();
+      log(response.data);
       _isLoading = false;
       notifyListeners();
     } catch (e) {

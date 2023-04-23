@@ -29,12 +29,13 @@ class _SellerDetailsState extends State<SellerDetails> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AdminProvider>(builder: (context, provider, _) {
-      if (provider.isLoading) {
+      final seller = provider.currentSeller;
+      if (provider.isLoading || seller == null) {
         return const Material(
           child: LoadingWidget(),
         );
       } else {
-        final currentSeller = provider.currentSeller!;
+        final currentSeller = seller;
         return Scaffold(
             appBar: AppBar(
               title: const Text('Seller Details'),
