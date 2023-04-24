@@ -22,7 +22,7 @@ const Map<String, OrderStatus> orderMap = {
   "Processing": OrderStatus.processing,
   "Shipped": OrderStatus.shipped,
   "Delivered": OrderStatus.delivered,
-  "Cancel": OrderStatus.cancel
+  "Canceled": OrderStatus.cancel
 };
 
 class Order {
@@ -60,7 +60,8 @@ class Order {
         payment: json["payment"],
         buyer: Buyer.fromJson(json["buyer"]),
         totalPrice: json["totalPrice"],
-        status: orderMap[json["status"]] ?? OrderStatus.notProccessed,
+        status:
+            orderMap[json["status"].toString()] ?? OrderStatus.notProccessed,
         deliveryAddress: json["deliveryAddress"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),

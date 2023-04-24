@@ -43,7 +43,7 @@ class ProductModel {
   final int v;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
-    log("---------------------\n${json}\n---------------------\n");
+    log("---------------------\n$json\n---------------------\n");
     return ProductModel(
       id: json["_id"],
       name: json["name"],

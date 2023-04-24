@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:saleitnow/providers/auth_provider.dart';
-import 'package:saleitnow/utils/dialogs.dart';
 import 'package:saleitnow/utils/enums.dart';
 import 'package:saleitnow/view/screens/admin/home.dart';
 import 'package:saleitnow/view/screens/seller_not_apprved_screen.dart';

@@ -8,8 +8,8 @@ import '../data/repos/seller_repo.dart';
 class SellerProvider extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
-  late Order _currentOrder;
-  Order get currentOrder => _currentOrder;
+  Order? _currentOrder;
+  Order? get currentOrder => _currentOrder;
   List<Order> _listOfOrders = [];
   List<Order> get listOfOrders => _listOfOrders;
 
@@ -24,7 +24,7 @@ class SellerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getAllOrders() async {
+  Future<void> getAllOrders() async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -41,13 +41,29 @@ class SellerProvider extends ChangeNotifier {
     }
   }
 
-  getOrderById(String id) async {
+  updateOrderById(String id, String orderStatus) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      final response = await SellerRepo().updateOrderById(id, orderStatus);
+      _currentOrder = Order.fromJson(response.data['updatedOrder']);
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  getOrderById(
+    String id,
+  ) async {
     try {
       _isLoading = true;
       notifyListeners();
       final response = await SellerRepo().getOrderById(id);
-      _currentOrder = Order.fromJson(response.data);
       _isLoading = false;
+      _currentOrder = Order.fromJson(response.data['order']);
       notifyListeners();
     } catch (e) {
       _isLoading = false;

@@ -49,6 +49,21 @@ class SellerRepo {
     }
   }
 
+  Future<Response> updateOrderById(String id, String orderStatus) async {
+    try {
+      return await api.put(
+        "/seller/orders/$id",
+        data: {"status": orderStatus},
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
   Future<Response> getOrderById(String id) async {
     try {
       return await api.get(
