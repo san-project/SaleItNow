@@ -29,6 +29,9 @@ class OrdersScreen extends StatelessWidget {
                 child: Text('No Order Available'),
               );
             } else {
+              provider.listOfOrders.sort(
+                (b, a) => a.createdAt.compareTo(b.createdAt),
+              );
               return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   itemCount: provider.listOfOrders.length,

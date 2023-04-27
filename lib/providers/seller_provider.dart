@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart' show ChangeNotifier;
+import 'package:saleitnow/data/models/dashboard_model.dart';
 import 'package:saleitnow/data/models/order_model.dart';
 import 'package:saleitnow/data/models/seller_model.dart';
 import '../data/repos/seller_repo.dart';
@@ -10,6 +11,8 @@ class SellerProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   Order? _currentOrder;
   Order? get currentOrder => _currentOrder;
+  Dashboard? _dashboard;
+  Dashboard? get dashboard => _dashboard;
   List<Order> _listOfOrders = [];
   List<Order> get listOfOrders => _listOfOrders;
 
@@ -76,7 +79,7 @@ class SellerProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
       final response = await SellerRepo().getDashboardDetails();
-      log(response.data);
+      _dashboard = Dashboard.fromJson(response.data);
       _isLoading = false;
       notifyListeners();
     } catch (e) {

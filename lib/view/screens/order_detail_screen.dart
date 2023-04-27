@@ -86,6 +86,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           title: Text(
                             e.product.name,
                             style: textTheme.titleMedium,
+                            maxLines: 2,
                           ),
                           subtitle: Text(
                             'Qty: ${e.quantity} x ${e.product.price}',
